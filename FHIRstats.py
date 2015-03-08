@@ -4,7 +4,9 @@ import datetime
 import collections
 import logging
 import json
-
+import iso8601
+import pytz
+import numpy as np
 
 def flatten(d, parent_key='', sep='.'):
     """
@@ -18,6 +20,24 @@ def flatten(d, parent_key='', sep='.'):
         else:
             items.append((new_key, v))
     return dict(items)
+
+def map_metrics(row):
+
+    field = row['content.name.coding']
+    metric=field[0]['display']
+
+    try:
+        metric=field[1]['display']
+    except:
+        pass
+
+    return metric
+
+def parse_iso8601_date(row, field):
+    try:
+        return iso8601.parse_date(row[field]).astimezone(pytz.utc).replace(tzinfo=None)
+    except:
+        return np.nan
 
 class FIHR_stats(object):
 
