@@ -24,7 +24,7 @@ if not cls.get_token():
 
 outfile=open(fileout, 'a')
 
-for c in credentials[0:2]:
+for c in credentials:
 
     if not cls.login(c):
         cls.finish(1)
